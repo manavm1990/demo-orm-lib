@@ -13,5 +13,10 @@
     "eslint-config-xo": "^0.43.1",
     "prettier": "^2.7.1",
     "vitest": "^0.26.2"
+  },
+  "dependencies": {
+    "dotenv": "^16.0.3",
+    "express": "^4.18.2",
+    "sequelize": "^6.28.0"
   }
 }
