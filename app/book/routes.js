@@ -16,6 +16,7 @@ router.post("/seed", (_, res) => {
 });
 
 // GET /api/books
+// TODO: Use request queries to list out the columns we want back
 router.get("/", (_, res) => {
   controller
     .index()
@@ -56,6 +57,22 @@ router.put("/:isbn", async (req, res) => {
 
   if (numberUpdated) {
     res.json({ message: `Book with ISBN ${isbn} updated` });
+  } else {
+    // 404: Not Found
+    res.status(404).json({ message: `Book with ISBN ${isbn} not found` });
+  }
+});
+
+router.delete("/:isbn", async (req, res) => {
+  const { isbn } = req.params;
+
+  const numberDeleted = await controller.delete(isbn).catch((err) => {
+    // 500: Internal Server Error
+    res.status(500).json({ message: err.message });
+  });
+
+  if (numberDeleted) {
+    res.json({ message: `Book with ISBN ${isbn} deleted` });
   } else {
     // 404: Not Found
     res.status(404).json({ message: `Book with ISBN ${isbn} not found` });
