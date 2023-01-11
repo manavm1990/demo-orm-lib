@@ -28,4 +28,20 @@ router.get("/", (_, res) => {
     });
 });
 
+router.get("/:isbn", async (req, res) => {
+  const { isbn } = req.params;
+
+  const book = await controller.show(isbn).catch((err) => {
+    // 500: Internal Server Error
+    res.status(500).json({ message: err.message });
+  });
+
+  if (book) {
+    res.json(book);
+  } else {
+    // 404: Not Found
+    res.status(404).json({ message: `Book with ISBN ${isbn} not found` });
+  }
+});
+
 export default router;
