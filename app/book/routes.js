@@ -44,4 +44,22 @@ router.get("/:isbn", async (req, res) => {
   }
 });
 
+router.put("/:isbn", async (req, res) => {
+  const { isbn } = req.params;
+
+  const [numberUpdated] = await controller
+    .update(isbn, req.body)
+    .catch((err) => {
+      // 500: Internal Server Error
+      res.status(500).json({ message: err.message });
+    });
+
+  if (numberUpdated) {
+    res.json({ message: `Book with ISBN ${isbn} updated` });
+  } else {
+    // 404: Not Found
+    res.status(404).json({ message: `Book with ISBN ${isbn} not found` });
+  }
+});
+
 export default router;
